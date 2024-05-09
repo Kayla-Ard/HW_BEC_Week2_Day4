@@ -323,3 +323,115 @@ email_pattern = re.compile(r"\b[A-Za-z0-9À-ÿ._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9
 #  \u0300-\u036F  À-ÿ                                                        \. read literally as a dot not a wildcard because its outside of a set
 emails = re.findall(email_pattern, text)
 print(emails)
+
+# validating user input - collecting an email and making sure its adhering to a specific pattern
+# email = input("Please enter your email").lower().strip()
+# if re.match(email_pattern, email):
+#     print("Valid Email Adress")
+# else:
+#     print("Please check your email and try again")
+
+# accessing the matched group from the match object
+# validating email and adding it to a dictionary as the key, with an empty dictionary as the value
+# email_pattern = re.compile(r"\b[A-Za-z0-9À-ÿ._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b")
+# address_book = {}
+# email = input("Please enter your email").lower().strip()
+# match = re.match(email_pattern, email)
+# # checking that our email is valid but checking if match is truthy
+# # checking that match is not None
+# if match:
+#     print(f"Valid email: {match.group()}")
+#     name = input("What is the name of your contact? ")
+#     address_book[email] = {"name": name}
+#     print(address_book)
+# else:
+#     print("Invalid Email Please try again")
+
+# checking for a valid phone number
+text = "Contact us at 123-456-7890"
+match = re.search(r"\d{3}-\d{3}-\d{4}", text)
+if match:
+    print(f"Phone Number Found: {match.group()}")
+
+# excluding something
+# ! <- not this thing
+# list comprehension give me all of the things from the findall except for ones where this exists
+# list comprehension and excluse phone number
+
+matched_nums = re.findall(r"\d{3}-\d{3}-\d{4}", text)
+print(matched_nums)
+# ['630-824-7768', '123-456-7891', '321-654-8744', '456-124-9635'] <- returned list from the findall
+phone_numbers = [number for number in matched_nums if "630-824-7768" not in number ]
+print(phone_numbers)
+
+phone_numbers = re.findall(r"\d{3}-\d{3}-\d{4}", text)
+print(phone_numbers)
+
+text = "Here are some neat emails except for yamama@gmail.com we got cool_guy420@hotmail.com business_person@yahoo.com coder_guy@codingtemple.com"
+
+emails= re.findall(r"\b[A-Za-z0-9À-ÿ._%+-]+@(?!gmail\.com)[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b", text)
+print(emails)
+
+
+print(re.findall(r"\b(?!630-824-7768)(\d{3}-\d{3}-\d{4})", text))
+
+    
+
+text = "I have so many friends they call me at  their numbers are 123-456-7891 321-654-8744, 456-124-9635 630-824-7768"
+# list comprehension because findall is going to return a list of valid phonenumbers
+# BUT i only want phone numbers returned that are not equal to my phone number
+# \blooking for a boundary betweetn a word character and a non-word character
+#?! - ignore the following pattern with the group
+# (\d{3}-\d{3}-\d{4}) business as usual checking for phone numbers with a specific amount of digits
+
+print(re.findall(r"(?!630-824-7768)(\d{3}-\d{3}-\d{4})", text))
+
+
+
+text = "Here are some neat emails except for yamama@gmail.edu we got cool_guy420@hotmail.com business_person@yahoo.com coder_guy@codingtemple.com"
+
+emails= re.findall(r"\b[A-Za-z0-9À-ÿ._%+-]+@[A-Za-z0-9.-]+(?!.com)\.[A-Za-z0-9]{2,}\b", text)
+print(emails)
+
+# using the ^ Check the beginning of the string
+text = "Hello, world!"
+if re.match(r"^Hello", text):
+    print("The string starts with 'Hello")
+else:
+    print("it does not start with hello!")
+
+# finding hashtags from twitter or instagram
+post = "I love coding so much. My instructor is so amazing and handsome and is good at super smash #blessed #codinglyfe #yolo #gottagofast"
+hashtags = re.findall(r"#\w+", post)
+print(hashtags)
+for hashtag in hashtags:
+    print(f"{hashtag} is trending")
+
+
+# extract the year from a date
+sentence = "The event was held on 15/06/2014"
+match = re.search(r"\b\d{4}\b", sentence)
+if match:
+    print(f"Year extracted..... {match.group()}")
+
+# re.split()
+text = "Python,Regex;Splitting-Examples. Fun, right?"
+words = re.split(r"[,;.\s-]", text)
+print(words)
+
+
+# re.sub() - replace charactesr in the string
+phone = "Phone: +1 (123) 456-7890"
+standard_phone = re.sub(r"\D", "", phone)
+print(standard_phone)
+
+# replacing html tags
+html = "<p>This is <em>HTML</em> content!</p>"
+clean_text = re.sub(r"<.*?>", "", html)
+print(clean_text)
+
+# reformatting a date
+date_string = "Today's date is 09/05/2024"
+                    #groups   1       2      3         3   2  1
+formatted_date = re.sub(r"(\d{2})/(\d{2})/(\d{4})", r"\2-\1-\3", date_string)
+print(formatted_date)
